@@ -20,30 +20,35 @@ public class GetTextChannelsFromGuildIntent extends AlexaDiscordIntent {
 
     @Override
     public SpeechletResponse handle(String guild) {
-        DiscordApp discordApp = AlexaDiscordREST.getDiscordInstance();
-        ArrayList<TextChannel> channels = discordApp.getTextChannelsInGuild(guild);
+        if(!guild.equals("")) {
+            DiscordApp discordApp = AlexaDiscordREST.getDiscordInstance();
+            ArrayList<TextChannel> channels = discordApp.getTextChannelsInGuild(guild);
 
-        String speechText;
-        if (channels.size() > 0) {
-            speechText = "I found " + channels.size() + " channels in " + guild + ". They are ";
-            for (int i = 0; i < channels.size(); i++) {
-                if (i != (channels.size() - 1)) {
-                    speechText += channels.get(i).getName() + ", ";
-                } else {
-                    speechText += "and " + channels.get(i).getName() + ".";
+            String speechText;
+            if (channels.size() > 0) {
+                speechText = "I found " + channels.size() + " channels in " + guild + ". They are ";
+                for (int i = 0; i < channels.size(); i++) {
+                    if (i != (channels.size() - 1)) {
+                        speechText += channels.get(i).getName() + ", ";
+                    } else {
+                        speechText += "and " + channels.get(i).getName() + ".";
+                    }
                 }
+            } else {
+                speechText = "I couldn't find any text channels in that guild!";
             }
-        } else {
-            speechText = "I couldn't find any text channels in that guild!";
+
+            SimpleCard card = new SimpleCard();
+            card.setTitle("Channels found!");
+            card.setContent(speechText);
+
+            PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+            speech.setText(speechText);
+
+            return SpeechletResponse.newTellResponse(speech, card);
         }
-
-        SimpleCard card = new SimpleCard();
-        card.setTitle("Channels found!");
-        card.setContent(speechText);
-
         PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-        speech.setText(speechText);
-
-        return SpeechletResponse.newTellResponse(speech, card);
+        speech.setText("Please select a guild first!");
+        return SpeechletResponse.newTellResponse(speech);
     }
 }

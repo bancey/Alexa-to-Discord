@@ -25,7 +25,7 @@ public class SelectGuildIntent extends AlexaDiscordIntent {
     public SpeechletResponse handle(String guild) {
         String speechText, repromptText = "";
         if (guild != null) {
-            speechText = "The guild you have selected is: ";
+            speechText = "The guild you have selected is " + guild + ".";
             repromptText = "What would you like to do now?";
             selectedGuild = guild;
         } else {
