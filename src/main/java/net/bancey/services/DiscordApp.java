@@ -21,11 +21,7 @@ public class DiscordApp {
     public DiscordApp(String token) {
         try {
             jda = new JDABuilder(AccountType.BOT).setToken("MjU2NzgxMDg5ODI4MjQxNDA5.CzGnQA.TbkjBO73oUGd8_P4jjqsxoVJkI0").buildBlocking();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (RateLimitedException e) {
-            e.printStackTrace();
-        } catch (LoginException e) {
+        } catch (InterruptedException | RateLimitedException | LoginException e) {
             e.printStackTrace();
         }
     }
@@ -38,6 +34,15 @@ public class DiscordApp {
                 channels.addAll(textChannels);
             }
             return channels;
+        }
+        return null;
+    }
+
+    public ArrayList<Guild> getGuilds() {
+        if(jda != null) {
+            ArrayList<Guild> guilds = new ArrayList<>();
+            guilds.addAll(jda.getGuilds());
+            return guilds;
         }
         return null;
     }

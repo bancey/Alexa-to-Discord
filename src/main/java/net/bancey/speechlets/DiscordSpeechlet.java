@@ -6,6 +6,7 @@ import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
 import net.bancey.intents.AlexaDiscordIntent;
+import net.bancey.intents.GetGuildsIntent;
 import net.bancey.intents.GetTextChannelsFromGuildIntent;
 
 /**
@@ -13,7 +14,7 @@ import net.bancey.intents.GetTextChannelsFromGuildIntent;
  */
 public class DiscordSpeechlet implements Speechlet {
 
-    private AlexaDiscordIntent[] intents = {new GetTextChannelsFromGuildIntent("GetTextChannelsFromGuildIntent")};
+    private AlexaDiscordIntent[] intents = {new GetTextChannelsFromGuildIntent("GetTextChannelsFromGuildIntent"), new GetGuildsIntent("GetGuildsIntent")};
 
     @Override
     public void onSessionStarted(SessionStartedRequest sessionStartedRequest, Session session) throws SpeechletException {
@@ -50,7 +51,7 @@ public class DiscordSpeechlet implements Speechlet {
     }
 
     private SpeechletResponse onLaunchResponse() {
-        String speechText = "Welcome to the Alexa Discord Skill, you can say get channels";
+        String speechText = "Welcome to the Alexa Discord Skill, you can say get channels or get guilds";
 
         SimpleCard card = new SimpleCard();
         card.setTitle("HelloWorld");
