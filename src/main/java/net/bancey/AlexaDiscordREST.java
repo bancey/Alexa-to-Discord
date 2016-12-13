@@ -11,10 +11,14 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by Bancey on 11/12/2016.
  */
+@Controller
 @SpringBootApplication
 @EnableAutoConfiguration
 public class AlexaDiscordREST extends SpringBootServletInitializer {
@@ -27,6 +31,12 @@ public class AlexaDiscordREST extends SpringBootServletInitializer {
             DiscordApp app = new DiscordApp("");
             AlexaDiscordREST.discordInstance = app;
         //}
+    }
+
+    @RequestMapping("/")
+    @ResponseBody
+    String home() {
+        return "Alexa-Discord is running!";
     }
 
     @Override
