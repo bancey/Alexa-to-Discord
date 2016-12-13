@@ -24,16 +24,21 @@ public class GetGuildsIntent extends AlexaDiscordIntent{
         ArrayList<Guild> guilds = discordApp.getGuilds();
 
         String speechText;
-        if (guilds.size() > 0) {
+        if (guilds.size() > 0 && guilds.size() > 1) {
             speechText = "There are " + guilds.size() + " that I am connected to. They are ";
             for (int i = 0; i < guilds.size(); i++) {
                 if (i != (guilds.size() - 1)) {
                     speechText += guilds.get(i).getName() + ", ";
-                } else if(guilds.size() != 1) {
+                } else if (guilds.size() != 1) {
                     speechText += "and " + guilds.get(i).getName() + ".";
                 } else {
                     speechText += guilds.get(i).getName() + ".";
                 }
+            }
+        } else if(guilds.size() > 0 && guilds.size() < 2) {
+            speechText = "There is " + guilds.size() + " that I am conntect to. It is ";
+            for(int i = 0; i < guilds.size(); i++) {
+                speechText += guilds.get(i).getName() + ".";
             }
         } else {
             speechText = "I couldn't find any guilds!";
