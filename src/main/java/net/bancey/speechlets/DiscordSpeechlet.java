@@ -1,6 +1,7 @@
 package net.bancey.speechlets;
 
 import com.amazon.speech.slu.Intent;
+import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.*;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
@@ -8,13 +9,18 @@ import com.amazon.speech.ui.SimpleCard;
 import net.bancey.intents.AlexaDiscordIntent;
 import net.bancey.intents.GetGuildsIntent;
 import net.bancey.intents.GetTextChannelsFromGuildIntent;
+import net.bancey.intents.SelectGuildIntent;
+
+import java.util.Map;
 
 /**
  * Created by abance on 13/12/2016.
  */
 public class DiscordSpeechlet implements Speechlet {
 
+    private String selectedGuild;
     private AlexaDiscordIntent[] intents = {new GetTextChannelsFromGuildIntent("GetTextChannelsFromGuildIntent"), new GetGuildsIntent("GetGuildsIntent")};
+    private static final String GUILD_KEY = "GUILD";
 
     @Override
     public void onSessionStarted(SessionStartedRequest sessionStartedRequest, Session session) throws SpeechletException {
@@ -38,6 +44,20 @@ public class DiscordSpeechlet implements Speechlet {
         } else {
             for(AlexaDiscordIntent alexaDiscordIntent: intents) {
                 if(alexaDiscordIntent.getName().equals(intent.getName())) {
+                    if(alexaDiscordIntent.getName().equals("SelectGuildIntent")) {
+                        SelectGuildIntent guildIntent = (SelectGuildIntent) alexaDiscordIntent;
+                        Map<String, Slot> slots = intent.getSlots();
+                        Slot guildSlot = slots.get(GUILD_KEY);
+                        SpeechletResponse response = guildIntent.handle(guildSlot.getValue());
+                        selectedGuild = guildIntent.getSelectedGuild();
+                        return response;
+                    }
+                    if(alexaDiscordIntent.getName().equals("GetTextChannelsFromGuildIntent")) {
+                        if(selectedGuild != null) {
+                            return alexaDiscordIntent.handle(selectedGuild);
+                        }
+                        return alexaDiscordIntent.handle("");
+                    }
                     return alexaDiscordIntent.handle("s u c c m y f u c c");
                 }
             }
