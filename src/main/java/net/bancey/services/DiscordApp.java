@@ -1,6 +1,5 @@
 package net.bancey.services;
 
-import net.bancey.model.Channel;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -31,14 +30,12 @@ public class DiscordApp {
         }
     }
 
-    public ArrayList<Channel> getTextChannelsInGuild(String guildName) {
+    public ArrayList<TextChannel> getTextChannelsInGuild(String guildName) {
         if (jda != null) {
-            ArrayList<Channel> channels = new ArrayList<>();
+            ArrayList<TextChannel> channels = new ArrayList<>();
             for (Guild guild : jda.getGuildsByName(guildName, true)) {
                 List<TextChannel> textChannels = guild.getTextChannels();
-                for(TextChannel ch: textChannels) {
-                    channels.add(new Channel(ch.getName(), ch.getId()));
-                }
+                channels.addAll(textChannels);
             }
             return channels;
         }
