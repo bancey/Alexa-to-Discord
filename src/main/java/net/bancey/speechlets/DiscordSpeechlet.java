@@ -71,19 +71,19 @@ public class DiscordSpeechlet implements Speechlet {
     }
 
     private SpeechletResponse onLaunchResponse() {
-        String speechText = "Welcome to the Alexa Discord Skill, you can say get channels or get guilds";
-
-        SimpleCard card = new SimpleCard();
-        card.setTitle("HelloWorld");
-        card.setContent(speechText);
+        String speechText = "Welcome to the Alexa Discord Skill, you can say get channels or get guilds or select guild";
+        String repromptText = "What would you like to do?";
 
         PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
         speech.setText(speechText);
 
-        Reprompt reprompt = new Reprompt();
-        reprompt.setOutputSpeech(speech);
+        PlainTextOutputSpeech repromptSpeech = new PlainTextOutputSpeech();
+        repromptSpeech.setText(repromptText);
 
-        return SpeechletResponse.newAskResponse(speech, reprompt, card);
+        Reprompt reprompt = new Reprompt();
+        reprompt.setOutputSpeech(repromptSpeech);
+
+        return SpeechletResponse.newAskResponse(speech, reprompt);
     }
 
     private SpeechletResponse onErrorResponse() {
