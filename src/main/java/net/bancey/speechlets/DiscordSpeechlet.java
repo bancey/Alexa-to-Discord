@@ -19,7 +19,7 @@ import java.util.Map;
 public class DiscordSpeechlet implements Speechlet {
 
     private String selectedGuild;
-    private AlexaDiscordIntent[] intents = {new GetTextChannelsFromGuildIntent("GetTextChannelsFromGuildIntent"), new GetGuildsIntent("GetGuildsIntent")};
+    private AlexaDiscordIntent[] intents = {new GetTextChannelsFromGuildIntent("GetTextChannelsFromGuildIntent"), new GetGuildsIntent("GetGuildsIntent"), new SelectGuildIntent("SelectGuildIntent")};
     private static final String GUILD_KEY = "GUILD";
 
     @Override
