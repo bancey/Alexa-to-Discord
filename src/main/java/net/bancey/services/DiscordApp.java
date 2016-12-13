@@ -3,6 +3,7 @@ package net.bancey.services;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
@@ -21,6 +22,7 @@ public class DiscordApp {
     public DiscordApp(String token) {
         try {
             jda = new JDABuilder(AccountType.BOT).setToken("MjU2NzgxMDg5ODI4MjQxNDA5.CzGnQA.TbkjBO73oUGd8_P4jjqsxoVJkI0").buildBlocking();
+            jda.getPresence().setGame(Game.of("I am a non sentient being."));
         } catch (InterruptedException | RateLimitedException | LoginException e) {
             e.printStackTrace();
         }
@@ -39,7 +41,7 @@ public class DiscordApp {
     }
 
     public ArrayList<Guild> getGuilds() {
-        if(jda != null) {
+        if (jda != null) {
             ArrayList<Guild> guilds = new ArrayList<>();
             guilds.addAll(jda.getGuilds());
             return guilds;
