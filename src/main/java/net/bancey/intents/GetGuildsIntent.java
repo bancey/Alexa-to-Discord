@@ -36,7 +36,7 @@ public class GetGuildsIntent extends AlexaDiscordIntent{
                 }
             }
         } else if(guilds.size() > 0 && guilds.size() < 2) {
-            speechText = "There is " + guilds.size() + " that I am conntect to. It is ";
+            speechText = "There is " + guilds.size() + " that I am connected to. It is ";
             for(int i = 0; i < guilds.size(); i++) {
                 speechText += guilds.get(i).getName() + ".";
             }
