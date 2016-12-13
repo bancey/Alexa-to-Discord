@@ -20,7 +20,7 @@ public class DiscordApp {
 
     public DiscordApp(String token) {
         try {
-            jda = new JDABuilder(AccountType.BOT).setToken(token).buildBlocking();
+            jda = new JDABuilder(AccountType.BOT).setToken("MjU2NzgxMDg5ODI4MjQxNDA5.CzGnQA.TbkjBO73oUGd8_P4jjqsxoVJkI0").buildBlocking();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (RateLimitedException e) {

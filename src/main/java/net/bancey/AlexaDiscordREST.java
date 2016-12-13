@@ -23,10 +23,10 @@ public class AlexaDiscordREST extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(AlexaDiscordREST.class, args);
-        if(args.length > 0) {
-            DiscordApp app = new DiscordApp(args[0]);
+        //if(args.length > 0) {
+            DiscordApp app = new DiscordApp("");
             AlexaDiscordREST.discordInstance = app;
-        }
+        //}
     }
 
     @Override
