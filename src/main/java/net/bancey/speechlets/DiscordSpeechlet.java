@@ -20,7 +20,7 @@ public class DiscordSpeechlet implements Speechlet {
 
     private String selectedGuild;
     private AlexaDiscordIntent[] intents = {new GetTextChannelsFromGuildIntent("GetTextChannelsFromGuildIntent"), new GetGuildsIntent("GetGuildsIntent"), new SelectGuildIntent("SelectGuildIntent")};
-    private static final String GUILD_KEY = "GUILD";
+    private static final String GUILD_KEY = "Guild";
 
     @Override
     public void onSessionStarted(SessionStartedRequest sessionStartedRequest, Session session) throws SpeechletException {
