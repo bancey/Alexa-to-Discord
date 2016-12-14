@@ -6,10 +6,7 @@ import com.amazon.speech.speechlet.*;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
-import net.bancey.intents.AlexaDiscordIntent;
-import net.bancey.intents.GetGuildsIntent;
-import net.bancey.intents.GetTextChannelsFromGuildIntent;
-import net.bancey.intents.SelectGuildIntent;
+import net.bancey.intents.*;
 
 import java.util.Map;
 
@@ -19,7 +16,7 @@ import java.util.Map;
 public class DiscordSpeechlet implements Speechlet {
 
     private String selectedGuild;
-    private AlexaDiscordIntent[] intents = {new GetTextChannelsFromGuildIntent("GetTextChannelsFromGuildIntent"), new GetGuildsIntent("GetGuildsIntent"), new SelectGuildIntent("SelectGuildIntent")};
+    private AlexaDiscordIntent[] intents = {new GetAllChannelsFromGuildIntent("GetAllChannelsFromGuildIntent"), new GetTextChannelsFromGuildIntent("GetTextChannelsFromGuildIntent"), new GetVoiceChannelsFromGuildIntent("GetVoiceChannelsFromGuildIntent"),new GetGuildsIntent("GetGuildsIntent"), new SelectGuildIntent("SelectGuildIntent")};
     private static final String GUILD_KEY = "Guild";
 
     @Override
@@ -52,11 +49,11 @@ public class DiscordSpeechlet implements Speechlet {
                         selectedGuild = guildIntent.getSelectedGuild();
                         return response;
                     }
-                    if(alexaDiscordIntent.getName().equals("GetTextChannelsFromGuildIntent")) {
+                    if(alexaDiscordIntent.getName().equals("GetTextChannelsFromGuildIntent") || alexaDiscordIntent.getName().equals("GetVoiceChannelsFromGuildIntent") || alexaDiscordIntent.getName().equals("GetAllChannelsFromGuildIntent")) {
                         if(selectedGuild != null) {
                             return alexaDiscordIntent.handle(selectedGuild);
                         }
-                        return alexaDiscordIntent.handle("");
+                        return alexaDiscordIntent.handle(null);
                     }
                     return alexaDiscordIntent.handle("s u c c m y f u c c");
                 }
@@ -71,7 +68,7 @@ public class DiscordSpeechlet implements Speechlet {
     }
 
     private SpeechletResponse onLaunchResponse() {
-        String speechText = "Welcome to the Alexa Discord Skill, you can say get channels or get guilds or select guild";
+        String speechText = "Welcome to the Alexa Discord Skill, you can say get text channels, get voice channels, get all channels, get guilds or select guild";
         String repromptText = "What would you like to do?";
 
         PlainTextOutputSpeech speech = new PlainTextOutputSpeech();

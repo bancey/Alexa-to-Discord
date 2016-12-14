@@ -3,9 +3,7 @@ package net.bancey.services;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 import javax.security.auth.login.LoginException;
@@ -38,6 +36,27 @@ public class DiscordApp {
             return channels;
         }
         return null;
+    }
+
+    public ArrayList<VoiceChannel> getVoiceChannelsInGuild(String guildName) {
+        if(jda != null) {
+            ArrayList<VoiceChannel> channels = new ArrayList<>();
+            for(Guild guild : jda.getGuildsByName(guildName, true)) {
+                List<VoiceChannel> voiceChannels = guild.getVoiceChannels();
+                channels.addAll(voiceChannels);
+            }
+            return channels;
+        }
+        return null;
+    }
+
+    public ArrayList<Channel> getAllChannelsInGuild(String guildName) {
+        ArrayList<Channel> allChannels = new ArrayList<>();
+        ArrayList<VoiceChannel> voiceChannels = getVoiceChannelsInGuild(guildName);
+        ArrayList<TextChannel> textChannels = getTextChannelsInGuild(guildName);
+        allChannels.addAll(voiceChannels);
+        allChannels.addAll(textChannels);
+        return allChannels;
     }
 
     public ArrayList<Guild> getGuilds() {

@@ -6,15 +6,16 @@ import com.amazon.speech.ui.SimpleCard;
 import net.bancey.AlexaDiscordREST;
 import net.bancey.services.DiscordApp;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.VoiceChannel;
 
 import java.util.ArrayList;
 
 /**
- * Created by abance on 13/12/2016.
+ * Created by abance on 14/12/2016.
  */
-public class GetTextChannelsFromGuildIntent extends AlexaDiscordIntent {
+public class GetVoiceChannelsFromGuildIntent extends AlexaDiscordIntent {
 
-    public GetTextChannelsFromGuildIntent(String name) {
+    public GetVoiceChannelsFromGuildIntent(String name) {
         super(name);
     }
 
@@ -22,11 +23,11 @@ public class GetTextChannelsFromGuildIntent extends AlexaDiscordIntent {
     public SpeechletResponse handle(String guild) {
         if(guild != null) {
             DiscordApp discordApp = AlexaDiscordREST.getDiscordInstance();
-            ArrayList<TextChannel> channels = discordApp.getTextChannelsInGuild(guild);
+            ArrayList<VoiceChannel> channels = discordApp.getVoiceChannelsInGuild(guild);
 
             String speechText;
             if (channels.size() > 0) {
-                speechText = "I found " + channels.size() + " text channels in " + guild + ". They are ";
+                speechText = "I found " + channels.size() + " voice channels in " + guild + ". They are ";
                 for (int i = 0; i < channels.size(); i++) {
                     if (i != (channels.size() - 1)) {
                         speechText += channels.get(i).getName() + ", ";
