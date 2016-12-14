@@ -2,6 +2,7 @@ package net.bancey.intents;
 
 import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
+import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
 import net.bancey.AlexaDiscordREST;
 import net.bancey.services.DiscordApp;
@@ -49,6 +50,8 @@ public class GetTextChannelsFromGuildIntent extends AlexaDiscordIntent {
         }
         PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
         speech.setText("Please select a guild first!");
-        return SpeechletResponse.newTellResponse(speech);
+        Reprompt reprompt = new Reprompt();
+        reprompt.setOutputSpeech(speech);
+        return SpeechletResponse.newAskResponse(speech, reprompt);
     }
 }
