@@ -6,6 +6,7 @@ import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
 import net.bancey.AlexaDiscordREST;
 import net.bancey.services.DiscordApp;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.ArrayList;
@@ -24,10 +25,24 @@ public class SelectGuildIntent extends AlexaDiscordIntent {
     @Override
     public SpeechletResponse handle(String guild) {
         String speechText, repromptText;
+
         if (guild != null) {
-            speechText = "The guild you have selected is " + guild + ".";
-            repromptText = "What would you like to do now?";
-            selectedGuild = guild;
+            DiscordApp app = AlexaDiscordREST.getDiscordInstance();
+            ArrayList<Guild> guilds = app.getGuilds();
+            boolean exists = false;
+            for(Guild g: guilds) {
+                if(g.getName().equals(guild)) {
+                    exists = true;
+                }
+            }
+            if(exists) {
+                speechText = "The guild you have selected is " + guild + ".";
+                repromptText = "What would you like to do now?";
+                selectedGuild = guild;
+            } else {
+                speechText = "Sorry I didn't pick up a guild name.";
+                repromptText = "Please try again.";
+            }
         } else {
             speechText = "Sorry I didn't pick up a guild name.";
             repromptText = "Please try again.";
