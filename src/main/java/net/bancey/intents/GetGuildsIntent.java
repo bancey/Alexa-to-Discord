@@ -25,25 +25,24 @@ public class GetGuildsIntent extends AlexaDiscordIntent{
 
         String speechText;
         if (guilds.size() > 0 && guilds.size() > 1) {
-            speechText = "There are " + guilds.size() + " that I am connected to. They are ";
+            speechText = "There are " + guilds.size() + " that I am connected to. They are: ";
             for (int i = 0; i < guilds.size(); i++) {
                 if (i != (guilds.size() - 1)) {
-                    speechText += guilds.get(i).getName() + ", ";
-                } else if (guilds.size() != 1) {
-                    speechText += "and " + guilds.get(i).getName() + ".";
+                    speechText += i + ". " + guilds.get(i).getName() + ", ";
                 } else {
-                    speechText += guilds.get(i).getName() + ".";
+                    speechText += "and " + i + ". " +  guilds.get(i).getName() + ".";
                 }
             }
         } else if(guilds.size() > 0 && guilds.size() < 2) {
             speechText = "There is " + guilds.size() + " that I am connected to. It is ";
             for(int i = 0; i < guilds.size(); i++) {
-                speechText += guilds.get(i).getName() + ".";
+                speechText += i + ". " + guilds.get(i).getName() + ".";
             }
         } else {
             speechText = "I couldn't find any guilds!";
         }
 
+        speechText += " Say select guild followed by the corresponding number of the guild mentioned above.";
         SimpleCard card = new SimpleCard();
         card.setTitle("Guilds!");
         card.setContent(speechText);

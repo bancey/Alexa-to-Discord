@@ -26,34 +26,30 @@ public class DiscordApp {
         }
     }
 
-    public ArrayList<TextChannel> getTextChannelsInGuild(String guildName) {
+    public ArrayList<TextChannel> getTextChannelsInGuild(String guildId) {
         if (jda != null) {
             ArrayList<TextChannel> channels = new ArrayList<>();
-            for (Guild guild : jda.getGuildsByName(guildName, true)) {
-                List<TextChannel> textChannels = guild.getTextChannels();
-                channels.addAll(textChannels);
-            }
+            Guild guild = jda.getGuildById(guildId);
+            channels.addAll(guild.getTextChannels());
             return channels;
         }
         return null;
     }
 
-    public ArrayList<VoiceChannel> getVoiceChannelsInGuild(String guildName) {
+    public ArrayList<VoiceChannel> getVoiceChannelsInGuild(String guildId) {
         if(jda != null) {
             ArrayList<VoiceChannel> channels = new ArrayList<>();
-            for(Guild guild : jda.getGuildsByName(guildName, true)) {
-                List<VoiceChannel> voiceChannels = guild.getVoiceChannels();
-                channels.addAll(voiceChannels);
-            }
+            Guild guild = jda.getGuildById(guildId);
+            channels.addAll(guild.getVoiceChannels());
             return channels;
         }
         return null;
     }
 
-    public ArrayList<Channel> getAllChannelsInGuild(String guildName) {
+    public ArrayList<Channel> getAllChannelsInGuild(String guildId) {
         ArrayList<Channel> allChannels = new ArrayList<>();
-        ArrayList<VoiceChannel> voiceChannels = getVoiceChannelsInGuild(guildName);
-        ArrayList<TextChannel> textChannels = getTextChannelsInGuild(guildName);
+        ArrayList<VoiceChannel> voiceChannels = getVoiceChannelsInGuild(guildId);
+        ArrayList<TextChannel> textChannels = getTextChannelsInGuild(guildId);
         allChannels.addAll(voiceChannels);
         allChannels.addAll(textChannels);
         return allChannels;
@@ -64,6 +60,13 @@ public class DiscordApp {
             ArrayList<Guild> guilds = new ArrayList<>();
             guilds.addAll(jda.getGuilds());
             return guilds;
+        }
+        return null;
+    }
+
+    public Guild getGuildById(String guildId) {
+        if(jda != null) {
+            return jda.getGuildById(guildId);
         }
         return null;
     }
