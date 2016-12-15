@@ -8,9 +8,15 @@ Alexa-to-Discord is a work in progress Alexa skill which allows users to interec
 #Getting Started
 Firstly you are going to want to make sure you have a [Discord account](https://discordapp.com/) and a [Amazon Developer account](https://developer.amazon.com/), although not neccasary I highly suggest getting a [Heroku account](https://dashboard.heroku.com/apps) as this will allow you to host your code for free without having to mess around with SSL certificated or HTTPS.
 
+Table of contents
+ - [Generating your Discord token](#Generating-your-Discord-token)
+ - [Deploying the Application](#Deploying-the-Application)
+    - [Deploying to Heroku](#Deploying-to-Heroku)
+ - [Creating the Alexa Skill](#Creating-the-Alexa-Skill)
+ 
 - - - -
 
-###Generating your Discord token.
+###Generating your Discord token
 1. Go to the [discord developers portal](https://discordapp.com/developers) and log in with your discord account.
 2. Click on the "My Apps" link in the menu on the left.
 3. Click on "New App".
