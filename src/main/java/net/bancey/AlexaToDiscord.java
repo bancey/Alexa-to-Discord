@@ -33,8 +33,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(AlexaToDiscord.class, args);
         String token = System.getenv("DISCORD_TOKEN");
-        System.out.println(token);
-        AlexaToDiscord.discordInstance = new DiscordApp("");
+        AlexaToDiscord.discordInstance = new DiscordApp(token);
     }
 
     /*
