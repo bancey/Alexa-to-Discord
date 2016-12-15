@@ -4,7 +4,7 @@ import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
-import net.bancey.AlexaDiscordREST;
+import net.bancey.AlexaToDiscord;
 import net.bancey.services.DiscordApp;
 import net.dv8tion.jda.core.entities.Guild;
 
@@ -23,7 +23,7 @@ public class SelectGuildIntent extends AlexaDiscordIntent {
 
     @Override
     public SpeechletResponse handle(String guild) {
-        DiscordApp discordApp = AlexaDiscordREST.getDiscordInstance();
+        DiscordApp discordApp = AlexaToDiscord.getDiscordInstance();
         ArrayList<Guild> guilds = discordApp.getGuilds();
 
         String speechText, repromptText;

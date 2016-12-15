@@ -4,7 +4,7 @@ import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
-import net.bancey.AlexaDiscordREST;
+import net.bancey.AlexaToDiscord;
 import net.bancey.services.DiscordApp;
 import net.dv8tion.jda.core.entities.TextChannel;
 
@@ -22,7 +22,7 @@ public class GetTextChannelsFromGuildIntent extends AlexaDiscordIntent {
     @Override
     public SpeechletResponse handle(String guild) {
         if(guild != null) {
-            DiscordApp discordApp = AlexaDiscordREST.getDiscordInstance();
+            DiscordApp discordApp = AlexaToDiscord.getDiscordInstance();
             ArrayList<TextChannel> channels = discordApp.getTextChannelsInGuild(guild);
 
             String speechText;

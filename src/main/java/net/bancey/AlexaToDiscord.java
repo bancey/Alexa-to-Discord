@@ -21,40 +21,59 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @SpringBootApplication
 @EnableAutoConfiguration
-public class AlexaDiscordREST extends SpringBootServletInitializer {
+public class AlexaToDiscord extends SpringBootServletInitializer {
 
+    //Declare class fields
     private static DiscordApp discordInstance;
 
+    /*
+     * Constructor for the AlexaToDiscord class, this is the entry point of the application
+     */
     public static void main(String[] args) {
-        SpringApplication.run(AlexaDiscordREST.class, args);
+        SpringApplication.run(AlexaToDiscord.class, args);
         //if(args.length > 0) {
-            DiscordApp app = new DiscordApp("");
-            AlexaDiscordREST.discordInstance = app;
+        AlexaToDiscord.discordInstance = new DiscordApp("");
         //}
     }
 
+    /*
+     * Method that maps the url / to the string "Alexa-Discord is running!" this allows you to see if the
+     * application is running by navigating to the application in your browser
+     */
     @RequestMapping("/")
     @ResponseBody
     String home() {
         return "Alexa-Discord is running!";
     }
 
+    /*
+     * Method that configures the spring application
+     */
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(AlexaDiscordREST.class);
+        return application.sources(AlexaToDiscord.class);
     }
 
+    /*
+     * Method that allows us to map our Speechlet that handles the Alexa requests to the url /alexa
+     */
     @Bean
     public ServletRegistrationBean servletRegistrationBean(){
         return new ServletRegistrationBean(createServlet(new DiscordSpeechlet()),"/alexa");
     }
 
-    public static SpeechletServlet createServlet(final Speechlet speechlet) {
+    /*
+     * Method that wraps a Speechlet in a SpeechletServlet which we can publish using spring
+     */
+    private SpeechletServlet createServlet(final Speechlet speechlet) {
         SpeechletServlet servlet = new SpeechletServlet();
         servlet.setSpeechlet(speechlet);
         return servlet;
     }
 
+    /*
+     * Method that returns the instance of the DiscordApp class
+     */
     public static DiscordApp getDiscordInstance() {
         return discordInstance;
     }

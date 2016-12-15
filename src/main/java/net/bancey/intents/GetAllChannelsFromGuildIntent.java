@@ -4,10 +4,9 @@ import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
-import net.bancey.AlexaDiscordREST;
+import net.bancey.AlexaToDiscord;
 import net.bancey.services.DiscordApp;
 import net.dv8tion.jda.core.entities.Channel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
 
 import java.util.ArrayList;
 
@@ -23,7 +22,7 @@ public class GetAllChannelsFromGuildIntent extends AlexaDiscordIntent {
     @Override
     public SpeechletResponse handle(String guild) {
         if(guild != null) {
-            DiscordApp discordApp = AlexaDiscordREST.getDiscordInstance();
+            DiscordApp discordApp = AlexaToDiscord.getDiscordInstance();
             ArrayList<Channel> channels = discordApp.getAllChannelsInGuild(guild);
 
             String speechText;
