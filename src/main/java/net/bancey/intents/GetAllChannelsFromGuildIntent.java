@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.entities.Channel;
 import java.util.ArrayList;
 
 /**
+ *
  * Created by abance on 14/12/2016.
  */
 public class GetAllChannelsFromGuildIntent extends AlexaDiscordIntent {

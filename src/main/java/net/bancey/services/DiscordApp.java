@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * Created by Bancey on 11/12/2016.
  */
 public class DiscordApp {

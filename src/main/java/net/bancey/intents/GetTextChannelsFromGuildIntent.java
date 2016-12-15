@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import java.util.ArrayList;
 
 /**
+ *
  * Created by abance on 13/12/2016.
  */
 public class GetTextChannelsFromGuildIntent extends AlexaDiscordIntent {

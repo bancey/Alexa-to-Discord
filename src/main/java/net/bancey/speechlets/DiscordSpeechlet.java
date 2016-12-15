@@ -11,6 +11,7 @@ import net.bancey.intents.*;
 import java.util.Map;
 
 /**
+ *
  * Created by abance on 13/12/2016.
  */
 public class DiscordSpeechlet implements Speechlet {

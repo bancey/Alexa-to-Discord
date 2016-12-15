@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import java.util.ArrayList;
 
 /**
+ *
  * Created by Bancey on 13/12/2016.
  */
 public class GetGuildsIntent extends AlexaDiscordIntent{

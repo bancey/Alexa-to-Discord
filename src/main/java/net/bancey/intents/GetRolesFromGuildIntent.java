@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.entities.Role;
 import java.util.ArrayList;
 
 /**
+ *
  * Created by abance on 15/12/2016.
  */
 public class GetRolesFromGuildIntent extends AlexaDiscordIntent {
