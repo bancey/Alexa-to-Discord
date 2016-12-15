@@ -7,7 +7,6 @@ import com.amazon.speech.ui.SimpleCard;
 import net.bancey.AlexaDiscordREST;
 import net.bancey.services.DiscordApp;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.ArrayList;
 
@@ -28,13 +27,13 @@ public class SelectGuildIntent extends AlexaDiscordIntent {
         ArrayList<Guild> guilds = discordApp.getGuilds();
 
         String speechText, repromptText;
-        if (guild != null && !(Integer.parseInt(guild) > (guilds.size() -1)) && !(Integer.parseInt(guild) < 0)) {
+        if (guild != null && !(Integer.parseInt(guild) > (guilds.size() - 1)) && !(Integer.parseInt(guild) < 0)) {
             int guildNumber = Integer.parseInt(guild);
             speechText = "The guild you have selected is " + guilds.get(guildNumber).getName() + ".";
             repromptText = "What would you like to do now?";
             selectedGuild = guilds.get(guildNumber).getId();
         } else {
-            speechText = "Sorry I didn't pick up a guild number.";
+            speechText = "Sorry I didn't pick up a guild number or the number you said wasn't accepted. If you are unsure of the number please say get guilds first.";
             repromptText = "Please try again.";
         }
 
