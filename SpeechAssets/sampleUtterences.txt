@@ -1,0 +1,24 @@
+GetTextChannelsFromGuildIntent get text channels
+GetTextChannelsFromGuildIntent text channels
+GetTextChannelsFromGuildIntent show text channels
+GetTextChannelsFromGuildIntent fetch text channels
+GetVoiceChannelsFromGuildIntent get voice channels
+GetVoiceChannelsFromGuildIntent voice channels
+GetVoiceChannelsFromGuildIntent show voice channels
+GetVoiceChannelsFromGuildIntent fetch voice channels
+GetAllChannelsFromGuildIntent get all channels
+GetAllChannelsFromGuildIntent all channels
+GetAllChannelsFromGuildIntent show all channels
+GetAllChannelsFromGuildIntent voice channels
+GetRolesFromGuildIntent get roles
+GetRolesFromGuildIntent all roles
+GetRolesFromGuildIntent show roles
+GetRolesFromGuildIntent fetch roles
+GetGuildsIntent get guilds
+GetGuildsIntent guilds
+GetGuildsIntent show guilds
+GetGuildsIntent fetch guilds
+SelectGuildIntent select guild {Guild}
+SelectGuildIntent choose guild {Guild}
+SelectGuildIntent elect guild {Guild}
+SelectGuildIntent guild {Guild}

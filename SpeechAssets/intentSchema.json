@@ -1,0 +1,37 @@
+{
+  "intents": [
+    {
+      "intent": "GetAllChannelsFromGuildIntent"
+    },
+    {
+      "intent": "GetVoiceChannelsFromGuildIntent"
+    },
+    {
+      "intent": "GetTextChannelsFromGuildIntent"
+    },
+    {
+      "intent": "GetRolesFromGuildIntent"
+    },
+    {
+      "intent": "GetGuildsIntent"
+    },
+    {
+      "intent": "SelectGuildIntent",
+      "slots": [
+        {
+          "name": "Guild",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent":"AMAZON.CancelIntent"
+    },
+    {
+      "intent":"AMAZON.StopIntent"
+    }
+  ]
+}
