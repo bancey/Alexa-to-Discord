@@ -28,7 +28,7 @@ public class GetVoiceChannelsFromGuildIntent extends AlexaDiscordIntent {
 
             String speechText;
             if (channels.size() > 0) {
-                speechText = "I found " + channels.size() + " voice channels in " + guild + ". They are ";
+                speechText = "I found " + channels.size() + " voice channels in that guild. They are ";
                 for (int i = 0; i < channels.size(); i++) {
                     if (i != (channels.size() - 1)) {
                         speechText += channels.get(i).getName() + ", ";

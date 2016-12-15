@@ -6,17 +6,16 @@ import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
 import net.bancey.AlexaDiscordREST;
 import net.bancey.services.DiscordApp;
-import net.dv8tion.jda.core.entities.Channel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.entities.Role;
 
 import java.util.ArrayList;
 
 /**
- * Created by abance on 14/12/2016.
+ * Created by abance on 15/12/2016.
  */
-public class GetAllChannelsFromGuildIntent extends AlexaDiscordIntent {
+public class GetRolesFromGuildIntent extends AlexaDiscordIntent {
 
-    public GetAllChannelsFromGuildIntent(String name) {
+    public GetRolesFromGuildIntent(String name) {
         super(name);
     }
 
@@ -24,24 +23,24 @@ public class GetAllChannelsFromGuildIntent extends AlexaDiscordIntent {
     public SpeechletResponse handle(String guild) {
         if(guild != null) {
             DiscordApp discordApp = AlexaDiscordREST.getDiscordInstance();
-            ArrayList<Channel> channels = discordApp.getAllChannelsInGuild(guild);
+            ArrayList<Role> roles = discordApp.getRolesFromGuild(guild);
 
             String speechText;
-            if (channels.size() > 0) {
-                speechText = "I found in total " + channels.size() + " channels in that guild. They are ";
-                for (int i = 0; i < channels.size(); i++) {
-                    if (i != (channels.size() - 1)) {
-                        speechText += channels.get(i).getName() + ", ";
+            if(roles.size() > 0) {
+                speechText = "I found " + roles.size() + " roles in that guild. THey are: ";
+                for(int i = 0; i<roles.size(); i++) {
+                    if(i != (roles.size() - 1)) {
+                        speechText += roles.get(i).getName() + ", ";
                     } else {
-                        speechText += "and " + channels.get(i).getName() + ".";
+                        speechText += "and " + roles.get(i).getName() + ".";
                     }
                 }
             } else {
-                speechText = "I couldn't find any channels in that guild!";
+                speechText = "Sorry I didn't find any roles on that server!";
             }
 
             SimpleCard card = new SimpleCard();
-            card.setTitle("Channels found!");
+            card.setTitle("Roles found!");
             card.setContent(speechText);
 
             PlainTextOutputSpeech speech = new PlainTextOutputSpeech();

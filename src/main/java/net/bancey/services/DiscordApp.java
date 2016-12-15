@@ -70,4 +70,13 @@ public class DiscordApp {
         }
         return null;
     }
+
+    public ArrayList<Role> getRolesFromGuild(String guildId) {
+        if(jda != null) {
+            ArrayList<Role> roles = new ArrayList<>();
+            roles.addAll(jda.getGuildById(guildId).getRoles());
+            return roles;
+        }
+        return null;
+    }
 }

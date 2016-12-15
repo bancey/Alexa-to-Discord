@@ -16,7 +16,7 @@ import java.util.Map;
 public class DiscordSpeechlet implements Speechlet {
 
     private String selectedGuild;
-    private AlexaDiscordIntent[] intents = {new GetAllChannelsFromGuildIntent("GetAllChannelsFromGuildIntent"), new GetTextChannelsFromGuildIntent("GetTextChannelsFromGuildIntent"), new GetVoiceChannelsFromGuildIntent("GetVoiceChannelsFromGuildIntent"),new GetGuildsIntent("GetGuildsIntent"), new SelectGuildIntent("SelectGuildIntent")};
+    private AlexaDiscordIntent[] intents = {new GetAllChannelsFromGuildIntent("GetAllChannelsFromGuildIntent"), new GetTextChannelsFromGuildIntent("GetTextChannelsFromGuildIntent"), new GetVoiceChannelsFromGuildIntent("GetVoiceChannelsFromGuildIntent"),new GetGuildsIntent("GetGuildsIntent"), new SelectGuildIntent("SelectGuildIntent"), new GetRolesFromGuildIntent("GetRolesFromGuildIntent")};
     private static final String GUILD_KEY = "Guild";
 
     @Override
@@ -49,7 +49,7 @@ public class DiscordSpeechlet implements Speechlet {
                         selectedGuild = guildIntent.getSelectedGuild();
                         return response;
                     }
-                    if(alexaDiscordIntent.getName().equals("GetTextChannelsFromGuildIntent") || alexaDiscordIntent.getName().equals("GetVoiceChannelsFromGuildIntent") || alexaDiscordIntent.getName().equals("GetAllChannelsFromGuildIntent")) {
+                    if(alexaDiscordIntent.getName().equals("GetTextChannelsFromGuildIntent") || alexaDiscordIntent.getName().equals("GetVoiceChannelsFromGuildIntent") || alexaDiscordIntent.getName().equals("GetAllChannelsFromGuildIntent") || alexaDiscordIntent.getName().equals("GetRolesFromGuildIntent")) {
                         if(selectedGuild != null) {
                             return alexaDiscordIntent.handle(selectedGuild);
                         }
