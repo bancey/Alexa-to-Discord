@@ -5,14 +5,40 @@ Alexa-to-Discord is a work in progress Alexa skill which allows users to interec
 
 - - - -
 
-#Getting Started
-Firstly you are going to want to make sure you have a [Discord account](https://discordapp.com/) and a [Amazon Developer account](https://developer.amazon.com/), although not neccasary I highly suggest getting a [Heroku account](https://dashboard.heroku.com/apps) as this will allow you to host your code for free without having to mess around with SSL certificated or HTTPS.
-
-Table of contents
+#Table of Contents
+ - [Features](#Features)
+    - [Current Features](#Current-Features)
+    - [Planned Features](#Planned-Features)
  - [Generating your Discord token](#Generating-your-Discord-token)
  - [Deploying the Application](#Deploying-the-Application)
     - [Deploying to Heroku](#Deploying-to-Heroku)
  - [Creating the Alexa Skill](#Creating-the-Alexa-Skill)
+ 
+ - - - -
+ 
+#<a name="Features"></a>Features
+
+##<a name="Current-Features"></a>Current Features
+Currently the skill has 6 intents you can:
+ - Get all guilds the bot is connected to.
+ - Select a specific guild.
+ - Get the roles from the selected guild.
+ - Get the text channels from the selected guild.
+ - Get the voice channels from the selected guild.
+ - Get all channels in the selected guild.
+ 
+##<a name="Planned-Features"></a>Planned Features
+These are features that we plan to implement when we have time or they are waiting for push notifications to be release for the echo.
+ - Be able to select a specific channel in the selected guild.
+ - Get the last x messages from the selected channel.
+ - Get the active users in the selected channel.
+ - Be able to send messages to the selected channel.
+ - Allow alexa to speak when a message is sent to a specific channel. (Requires push notifications)
+
+- - - -
+
+#<a name="Getting-Started"></a>Getting Started
+Firstly you are going to want to make sure you have a [Discord account](https://discordapp.com/) and a [Amazon Developer account](https://developer.amazon.com/), although not neccasary I highly suggest getting a [Heroku account](https://dashboard.heroku.com/apps) as this will allow you to host your code for free without having to mess around with SSL certificated or HTTPS.
  
 - - - -
 
