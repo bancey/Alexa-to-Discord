@@ -15,8 +15,12 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.apache.oltu.oauth2.client.OAuthClient;
+import org.apache.oltu.oauth2.client.URLConnectionClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
+import org.apache.oltu.oauth2.client.response.OAuthAccessTokenResponse;
 import org.apache.oltu.oauth2.client.response.OAuthAuthzResponse;
+import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
@@ -118,7 +122,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
             oar = OAuthAuthzResponse.oauthCodeAuthzResponse(request);
             String code = oar.getCode();
 
-            /*OAuthClientRequest oAuthClientRequest = OAuthClientRequest
+            OAuthClientRequest oAuthClientRequest = OAuthClientRequest
                     .tokenLocation(TOKEN_URL)
                     .setGrantType(GrantType.AUTHORIZATION_CODE)
                     .setClientId(CLIENT_ID)
@@ -129,39 +133,21 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
 
             oAuthClientRequest.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
-            System.out.println(oAuthClientRequest.getBody());
+            System.out.println(oAuthClientRequest.toString());
             OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
 
             OAuthAccessTokenResponse tokenResponse = oAuthClient.accessToken(oAuthClientRequest, OAuthJSONAccessTokenResponse.class);
             String accessToken = tokenResponse.getAccessToken();
             String tokenType = tokenResponse.getTokenType();
-            Long expiresIn = tokenResponse.getExpiresIn();*/
-            HttpPost httpPost = new HttpPost(TOKEN_URL);
-            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-            nvps.add(new BasicNameValuePair("code", code));
-            nvps.add(new BasicNameValuePair("client_id", CLIENT_ID));
-            nvps.add(new BasicNameValuePair("client_secret", CLIENT_SECRET));
-            nvps.add(new BasicNameValuePair("redirect_uri", redirectURI));
-            nvps.add(new BasicNameValuePair("grant_type", GrantType.AUTHORIZATION_CODE.toString()));
-            httpPost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.DEF_CONTENT_CHARSET));
+            Long expiresIn = tokenResponse.getExpiresIn();
 
-            HttpClient httpClient = HttpClients.createDefault();
-            HttpResponse httpPostResponse;
-            try {
-                httpPostResponse = httpClient.execute(httpPost);
-                HttpEntity responseEntity = httpPostResponse.getEntity();
-                System.out.println(EntityUtils.toString(responseEntity));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            //System.out.println(accessToken + ":" + tokenType + ":" + expiresIn);
-            //redirectURI += "#state=" + state + "&access_token=" + accessToken + "&token_type=" + tokenType;
+            System.out.println(accessToken + ":" + tokenType + ":" + expiresIn);
+            redirectURI += "#state=" + state + "&access_token=" + accessToken + "&token_type=" + tokenType;
             return new ModelAndView(new RedirectView(redirectURI));
         } catch (OAuthProblemException e) {
             e.printStackTrace();
-        //} catch (OAuthSystemException e) {
-        //    e.printStackTrace();
+        } catch (OAuthSystemException e) {
+            e.printStackTrace();
         }
         return new ModelAndView(new RedirectView("/"));
     }
