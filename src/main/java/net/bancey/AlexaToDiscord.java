@@ -25,9 +25,11 @@ import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
+import org.apache.oltu.oauth2.common.parameters.OAuthParametersApplier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -131,14 +133,12 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
                     .setCode(code)
                     .buildBodyMessage();
 
-            oAuthClientRequest.addHeader("Content-Type", "application/x-www-form-urlencoded");
-
             System.out.println(oAuthClientRequest.getBody());
             System.out.println(oAuthClientRequest.getLocationUri());
             System.out.println(oAuthClientRequest.getHeaders().toString());
             OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
 
-            OAuthAccessTokenResponse tokenResponse = oAuthClient.accessToken(oAuthClientRequest, OAuthJSONAccessTokenResponse.class);
+            OAuthAccessTokenResponse tokenResponse = oAuthClient.accessToken(oAuthClientRequest,"POST", OAuthJSONAccessTokenResponse.class);
             String accessToken = tokenResponse.getAccessToken();
             String tokenType = tokenResponse.getTokenType();
             Long expiresIn = tokenResponse.getExpiresIn();
