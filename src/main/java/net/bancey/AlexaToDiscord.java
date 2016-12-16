@@ -47,6 +47,10 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
     private final String TOKEN_URL = BASE_URL + "/oauth/token";
     private final String CALLBACK_URL = "https://alexa-discord.herokuapp.com/oauth/callback";
     private final String CLIENT_SECRET = "sGM8PzikQ5oqcrxm8cvxh2PSfWFvSxJa";
+    private final String CLIENT_ID = "259260480105742337";
+
+    private String state;
+    private String redirectURI;
 
     //Declare class fields
     private static DiscordApp discordInstance;
@@ -74,9 +78,8 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
     @ResponseBody
     public ModelAndView authorize(@RequestParam("client_id") String clientId, @RequestParam("state") String state, @RequestParam("redirect_uri") String redirectURI, HttpServletRequest req, HttpServletResponse res) {
         try {
-            res.addCookie(new Cookie("clientId", clientId));
-            res.addCookie(new Cookie("state", state));
-            res.addCookie(new Cookie("redirectURI", redirectURI));
+            this.state = state;
+            this.redirectURI = redirectURI;
 
             OAuthClientRequest request = OAuthClientRequest
                     .authorizationLocation(AUTH_URL)
@@ -97,9 +100,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
     @ResponseBody
     public ModelAndView callback(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String clientId = findCookieValue(request, "clientId");
-            String state = findCookieValue(request, "state");
-            String redirectURI = findCookieValue(request, "redirectURL");
+            String clientId = CLIENT_ID
 
             OAuthAuthzResponse oar;
             oar = OAuthAuthzResponse.oauthCodeAuthzResponse(request);
