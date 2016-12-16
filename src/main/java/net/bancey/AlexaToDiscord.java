@@ -116,6 +116,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
                     .setCode(code)
                     .buildBodyMessage();
 
+            System.out.println(oAuthClientRequest.getBody());
             OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
 
             OAuthAccessTokenResponse tokenResponse = oAuthClient.accessToken(oAuthClientRequest, OAuthJSONAccessTokenResponse.class);
