@@ -4,6 +4,7 @@ import com.amazon.speech.speechlet.Speechlet;
 import com.amazon.speech.speechlet.servlet.SpeechletServlet;
 import net.bancey.services.DiscordApp;
 import net.bancey.speechlets.DiscordSpeechlet;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -13,6 +14,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.client.response.OAuthAuthzResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
@@ -144,10 +146,11 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
             httpPost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.DEF_CONTENT_CHARSET));
 
             HttpClient httpClient = HttpClients.createDefault();
-            HttpResponse httpPostResponse = null;
+            HttpResponse httpPostResponse;
             try {
                 httpPostResponse = httpClient.execute(httpPost);
-                System.out.println(httpPostResponse.getEntity().getContent());
+                HttpEntity responseEntity = httpPostResponse.getEntity();
+                System.out.println(EntityUtils.toString(responseEntity));
             } catch (IOException e) {
                 e.printStackTrace();
             }
