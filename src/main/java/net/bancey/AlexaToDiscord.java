@@ -100,7 +100,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
     @ResponseBody
     public ModelAndView callback(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String clientId = CLIENT_ID
+            String clientId = CLIENT_ID;
 
             OAuthAuthzResponse oar;
             oar = OAuthAuthzResponse.oauthCodeAuthzResponse(request);
