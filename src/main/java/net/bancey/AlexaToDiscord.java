@@ -9,6 +9,7 @@ import org.apache.oltu.oauth2.client.URLConnectionClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.client.response.OAuthAccessTokenResponse;
 import org.apache.oltu.oauth2.client.response.OAuthAuthzResponse;
+import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.OAuthProviderType;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
@@ -117,7 +118,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
 
             OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
 
-            OAuthAccessTokenResponse tokenResponse = oAuthClient.accessToken(oAuthClientRequest);
+            OAuthAccessTokenResponse tokenResponse = oAuthClient.accessToken(oAuthClientRequest, OAuthJSONAccessTokenResponse.class);
             String accessToken = tokenResponse.getAccessToken();
             String tokenType = tokenResponse.getTokenType();
             Long expiresIn = tokenResponse.getExpiresIn();
