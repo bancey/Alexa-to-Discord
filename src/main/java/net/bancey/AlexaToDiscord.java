@@ -86,9 +86,9 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
                     .setClientId(clientId)
                     .setRedirectURI(CALLBACK_URL)
                     .setResponseType(ResponseType.CODE.toString())
-                    .setScope("guild")
+                    .setScope("guilds")
                     .buildQueryMessage();
-
+            System.out.println(request.getLocationUri());
             return new ModelAndView(new RedirectView(request.getLocationUri()));
         } catch (OAuthSystemException e) {
             e.printStackTrace();
