@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AlexaToDiscord extends SpringBootServletInitializer {
 
     private final String BASE_URL = "https://discordapp.com/api";
-    private final String AUTH_URL = BASE_URL + "/oauth/authorize";
+    private final String AUTH_URL = "https://discordapp.com/api/oauth2/authorize";
     private final String TOKEN_URL = BASE_URL + "/oauth/token";
     private final String CALLBACK_URL = "https://alexa-discord.herokuapp.com/oauth/callback";
     private final String CLIENT_SECRET = "sGM8PzikQ5oqcrxm8cvxh2PSfWFvSxJa";
