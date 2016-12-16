@@ -72,7 +72,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
 
     @RequestMapping("/oauth/authorize")
     @ResponseBody
-    public ModelAndView authorize(@RequestParam("clientId") String clientId, @RequestParam("state") String state, @RequestParam("redirectURI") String redirectURI, HttpServletRequest req, HttpServletResponse res) {
+    public ModelAndView authorize(@RequestParam("client_id") String clientId, @RequestParam("state") String state, @RequestParam("redirectURI") String redirectURI, HttpServletRequest req, HttpServletResponse res) {
         try {
             res.addCookie(new Cookie("clientId", clientId));
             res.addCookie(new Cookie("state", state));
