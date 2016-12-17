@@ -149,6 +149,8 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
         } catch (OAuthProblemException e) {
             e.printStackTrace();
         } catch (OAuthSystemException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getCause());
             e.printStackTrace();
         }
         return new ModelAndView(new RedirectView("/"));
