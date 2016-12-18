@@ -4,51 +4,19 @@ import com.amazon.speech.speechlet.Speechlet;
 import com.amazon.speech.speechlet.servlet.SpeechletServlet;
 import net.bancey.services.DiscordApp;
 import net.bancey.speechlets.DiscordSpeechlet;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-import org.apache.oltu.oauth2.client.OAuthClient;
-import org.apache.oltu.oauth2.client.URLConnectionClient;
-import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
-import org.apache.oltu.oauth2.client.response.OAuthAccessTokenResponse;
-import org.apache.oltu.oauth2.client.response.OAuthAuthzResponse;
-import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
-import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
-import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
-import org.apache.oltu.oauth2.common.message.types.GrantType;
-import org.apache.oltu.oauth2.common.message.types.ResponseType;
-import org.apache.oltu.oauth2.common.parameters.OAuthParametersApplier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
+ *
  * Created by Bancey on 11/12/2016.
  */
 @Controller
@@ -58,14 +26,6 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
 
     //Declare class fields
     private static DiscordApp discordInstance;
-    private final String BASE_URL = "https://discordapp.com/api";
-    private final String AUTH_URL = "https://discordapp.com/api/oauth2/authorize";
-    private final String TOKEN_URL = BASE_URL + "/oauth2/token";
-    private final String CALLBACK_URL = "https://alexa-discord.herokuapp.com/oauth/callback";
-    private final String CLIENT_SECRET = "sGM8PzikQ5oqcrxm8cvxh2PSfWFvSxJa";
-    private final String CLIENT_ID = "259260480105742337";
-    private String state;
-    private String redirectURI;
 
     /*
      * Constructor for the AlexaToDiscord class, this is the entry point of the application
@@ -93,69 +53,6 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
         return "Alexa-Discord is running!";
     }
 
-    @RequestMapping("/oauth/authorize")
-    @ResponseBody
-    public ModelAndView authorize(@RequestParam("client_id") String clientId, @RequestParam("state") String state, @RequestParam("redirect_uri") String redirectURI, HttpServletRequest req, HttpServletResponse res) {
-        try {
-            this.state = state;
-            this.redirectURI = redirectURI;
-
-            OAuthClientRequest request = OAuthClientRequest
-                    .authorizationLocation(AUTH_URL)
-                    .setClientId(clientId)
-                    .setRedirectURI(CALLBACK_URL)
-                    .setResponseType(ResponseType.CODE.toString())
-                    .setScope("guilds")
-                    .buildQueryMessage();
-            System.out.println(request.getLocationUri());
-            return new ModelAndView(new RedirectView(request.getLocationUri()));
-        } catch (OAuthSystemException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @RequestMapping("/oauth/callback")
-    @ResponseBody
-    public ModelAndView callback(HttpServletRequest request, HttpServletResponse response) {
-        try {
-
-            OAuthAuthzResponse oar;
-            oar = OAuthAuthzResponse.oauthCodeAuthzResponse(request);
-            String code = oar.getCode();
-
-            OAuthClientRequest oAuthClientRequest = OAuthClientRequest
-                    .tokenLocation(TOKEN_URL)
-                    .setGrantType(GrantType.AUTHORIZATION_CODE)
-                    .setClientId(CLIENT_ID)
-                    .setClientSecret(CLIENT_SECRET)
-                    .setRedirectURI(CALLBACK_URL)
-                    .setCode(code)
-                    .buildBodyMessage();
-
-            System.out.println(oAuthClientRequest.getBody());
-            System.out.println(oAuthClientRequest.getLocationUri());
-            System.out.println(oAuthClientRequest.getHeaders().toString());
-            OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
-
-            OAuthAccessTokenResponse tokenResponse = oAuthClient.accessToken(oAuthClientRequest,"POST", OAuthJSONAccessTokenResponse.class);
-            String accessToken = tokenResponse.getAccessToken();
-            String tokenType = tokenResponse.getTokenType();
-            Long expiresIn = tokenResponse.getExpiresIn();
-
-            System.out.println(accessToken + ":" + tokenType + ":" + expiresIn);
-            redirectURI += "#state=" + state + "&access_token=" + accessToken + "&token_type=" + tokenType;
-            return new ModelAndView(new RedirectView(redirectURI));
-        } catch (OAuthProblemException e) {
-            e.printStackTrace();
-        } catch (OAuthSystemException e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getCause());
-            e.printStackTrace();
-        }
-        return new ModelAndView(new RedirectView("/"));
-    }
-
     /*
      * Method that configures the spring application
      */
@@ -181,14 +78,4 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
         return servlet;
     }
 
-    private String findCookieValue(HttpServletRequest request, String key) {
-        Cookie[] cookies = request.getCookies();
-
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(key)) {
-                return cookie.getValue();
-            }
-        }
-        return "";
-    }
 }
