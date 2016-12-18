@@ -4,17 +4,6 @@ import com.amazon.speech.speechlet.Speechlet;
 import com.amazon.speech.speechlet.servlet.SpeechletServlet;
 import net.bancey.services.DiscordApp;
 import net.bancey.speechlets.DiscordSpeechlet;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
@@ -25,11 +14,9 @@ import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
-import org.apache.oltu.oauth2.common.parameters.OAuthParametersApplier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -44,11 +31,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
+ *
  * Created by Bancey on 11/12/2016.
  */
 @Controller
@@ -94,7 +79,6 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
     }
 
     @RequestMapping("/oauth/authorize")
-    @ResponseBody
     public ModelAndView authorize(@RequestParam("client_id") String clientId, @RequestParam("state") String state, @RequestParam("redirect_uri") String redirectURI, HttpServletRequest req, HttpServletResponse res) {
         try {
             this.state = state;
@@ -116,7 +100,6 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
     }
 
     @RequestMapping("/oauth/callback")
-    @ResponseBody
     public ModelAndView callback(HttpServletRequest request, HttpServletResponse response) {
         try {
 
@@ -138,7 +121,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
             System.out.println(oAuthClientRequest.getHeaders().toString());
             OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
 
-            OAuthAccessTokenResponse tokenResponse = oAuthClient.accessToken(oAuthClientRequest,"POST", OAuthJSONAccessTokenResponse.class);
+            OAuthAccessTokenResponse tokenResponse = oAuthClient.accessToken(oAuthClientRequest, "POST", OAuthJSONAccessTokenResponse.class);
             String accessToken = tokenResponse.getAccessToken();
             String tokenType = tokenResponse.getTokenType();
             Long expiresIn = tokenResponse.getExpiresIn();
@@ -149,8 +132,6 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
         } catch (OAuthProblemException e) {
             e.printStackTrace();
         } catch (OAuthSystemException e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getCause());
             e.printStackTrace();
         }
         return new ModelAndView(new RedirectView("/"));
