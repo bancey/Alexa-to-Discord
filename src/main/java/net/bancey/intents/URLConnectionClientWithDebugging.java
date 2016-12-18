@@ -57,7 +57,7 @@ public class URLConnectionClientWithDebugging implements HttpClient {
 
                 if (request.getHeaders() != null) {
                     for (Map.Entry<String, String> header : request.getHeaders().entrySet()) {
-                        System.out.println(header);
+                        System.out.println("Header: " + header.getKey() + ":" + header.getValue());
                         httpURLConnection.addRequestProperty(header.getKey(), header.getValue());
                     }
                 }
