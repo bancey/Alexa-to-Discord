@@ -108,31 +108,9 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
             oar = OAuthAuthzResponse.oauthCodeAuthzResponse(request);
             String code = oar.getCode();
 
-            OAuthClientRequest oAuthClientRequest = OAuthClientRequest
-                    .tokenLocation(TOKEN_URL)
-                    .setGrantType(GrantType.AUTHORIZATION_CODE)
-                    .setClientId(CLIENT_ID)
-                    .setClientSecret(CLIENT_SECRET)
-                    .setRedirectURI(CALLBACK_URL)
-                    .setCode(code)
-                    .buildBodyMessage();
-
-            System.out.println(oAuthClientRequest.getBody());
-            System.out.println(oAuthClientRequest.getLocationUri());
-            System.out.println(oAuthClientRequest.getHeaders().size());
-            OAuthClient oAuthClient = new OAuthClient(new URLConnectionClientWithDebugging());
-
-            OAuthAccessTokenResponse tokenResponse = oAuthClient.accessToken(oAuthClientRequest, "POST", OAuthJSONAccessTokenResponse.class);
-            String accessToken = tokenResponse.getAccessToken();
-            String tokenType = tokenResponse.getTokenType();
-            Long expiresIn = tokenResponse.getExpiresIn();
-
-            System.out.println(accessToken + ":" + tokenType + ":" + expiresIn);
-            redirectURI += "#state=" + state + "&access_token=" + accessToken + "&token_type=" + tokenType;
+            redirectURI += "&state=" + state + "&code=" + code;
             return new ModelAndView(new RedirectView(redirectURI));
         } catch (OAuthProblemException e) {
-            e.printStackTrace();
-        } catch (OAuthSystemException e) {
             e.printStackTrace();
         }
         return new ModelAndView(new RedirectView("/"));
