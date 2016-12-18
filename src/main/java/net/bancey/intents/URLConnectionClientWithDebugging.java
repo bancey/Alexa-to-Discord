@@ -4,6 +4,7 @@ import org.apache.oltu.oauth2.client.HttpClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.client.response.OAuthClientResponse;
 import org.apache.oltu.oauth2.client.response.OAuthClientResponseFactory;
+import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
@@ -17,7 +18,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 /**
  * Alexa-to-Discord
@@ -28,83 +33,85 @@ public class URLConnectionClientWithDebugging implements HttpClient {
     public URLConnectionClientWithDebugging() {
     }
 
-    public <T extends OAuthClientResponse> T execute(OAuthClientRequest request, Map<String, String> headers, String requestMethod, Class<T> responseClass) throws OAuthSystemException, OAuthProblemException {
-        InputStream responseBody = null;
-        Object responseHeaders = new HashMap();
+    public <T extends OAuthClientResponse> T execute(OAuthClientRequest request, Map<String, String> headers,
+                                                     String requestMethod, Class<T> responseClass)
+            throws OAuthSystemException, OAuthProblemException {
 
+        InputStream responseBody = null;
         URLConnection c;
+        Map<String, List<String>> responseHeaders = new HashMap<String, List<String>>();
         int responseCode;
         try {
-            URL e = new URL(request.getLocationUri());
-            c = e.openConnection();
+            URL url = new URL(request.getLocationUri());
+
+            c = url.openConnection();
             responseCode = -1;
-            if(c instanceof HttpURLConnection) {
-                HttpURLConnection httpURLConnection = (HttpURLConnection)c;
-                Iterator inputStream;
-                Map.Entry header;
-                if(headers != null && !headers.isEmpty()) {
-                    inputStream = headers.entrySet().iterator();
+            if (c instanceof HttpURLConnection) {
+                HttpURLConnection httpURLConnection = (HttpURLConnection) c;
 
-                    while(inputStream.hasNext()) {
-                        header = (Map.Entry)inputStream.next();
-                        httpURLConnection.addRequestProperty((String)header.getKey(), (String)header.getValue());
+                if (headers != null && !headers.isEmpty()) {
+                    for (Map.Entry<String, String> header : headers.entrySet()) {
+                        httpURLConnection.addRequestProperty(header.getKey(), header.getValue());
                     }
                 }
 
-                if(request.getHeaders() != null) {
-                    System.out.println("Headers are not null!");
-                    inputStream = request.getHeaders().entrySet().iterator();
-
-                    while(inputStream.hasNext()) {
-                        header = (Map.Entry)inputStream.next();
+                if (request.getHeaders() != null) {
+                    for (Map.Entry<String, String> header : request.getHeaders().entrySet()) {
                         System.out.println(header);
-                        httpURLConnection.addRequestProperty((String)header.getKey(), (String)header.getValue());
+                        httpURLConnection.addRequestProperty(header.getKey(), header.getValue());
                     }
                 }
 
-                if(OAuthUtils.isEmpty(requestMethod)) {
+                if (OAuthUtils.isEmpty(requestMethod)) {
                     System.out.println("Using GET");
-                    httpURLConnection.setRequestMethod("GET");
+                    httpURLConnection.setRequestMethod(OAuth.HttpMethod.GET);
                 } else {
                     System.out.println("Using " + requestMethod);
                     httpURLConnection.setRequestMethod(requestMethod);
-                    this.setRequestBody(request, requestMethod, httpURLConnection);
+                    setRequestBody(request, requestMethod, httpURLConnection);
                 }
 
                 httpURLConnection.connect();
+
+                InputStream inputStream;
                 responseCode = httpURLConnection.getResponseCode();
-                InputStream inputStream1;
-                if(responseCode != 400 && responseCode != 401) {
-                    inputStream1 = httpURLConnection.getInputStream();
+                if (responseCode == SC_BAD_REQUEST || responseCode == SC_UNAUTHORIZED) {
+                    inputStream = httpURLConnection.getErrorStream();
                 } else {
-                    inputStream1 = httpURLConnection.getErrorStream();
+                    inputStream = httpURLConnection.getInputStream();
                 }
 
                 responseHeaders = httpURLConnection.getHeaderFields();
-                responseBody = inputStream1;
+                responseBody = inputStream;
             }
-        } catch (IOException var13) {
-            throw new OAuthSystemException(var13);
+        } catch (IOException e) {
+            throw new OAuthSystemException(e);
         }
 
-        return OAuthClientResponseFactory.createCustomResponse(responseBody, c.getContentType(), responseCode, (Map)responseHeaders, responseClass);
+        return OAuthClientResponseFactory
+                .createCustomResponse(responseBody, c.getContentType(), responseCode, responseHeaders, responseClass);
     }
 
-    private void setRequestBody(OAuthClientRequest request, String requestMethod, HttpURLConnection httpURLConnection) throws IOException {
+    private void setRequestBody(OAuthClientRequest request, String requestMethod, HttpURLConnection httpURLConnection)
+            throws IOException {
         String requestBody = request.getBody();
-        if(!OAuthUtils.isEmpty(requestBody)) {
-            if("POST".equals(requestMethod) || "PUT".equals(requestMethod)) {
-                httpURLConnection.setDoOutput(true);
-                OutputStream ost = httpURLConnection.getOutputStream();
-                PrintWriter pw = new PrintWriter(ost);
-                pw.print(requestBody);
-                pw.flush();
-                pw.close();
-            }
+        if (OAuthUtils.isEmpty(requestBody)) {
+            return;
+        }
 
+        if (OAuth.HttpMethod.POST.equals(requestMethod) || OAuth.HttpMethod.PUT.equals(requestMethod)) {
+            httpURLConnection.setDoOutput(true);
+            OutputStream ost = httpURLConnection.getOutputStream();
+            PrintWriter pw = new PrintWriter(ost);
+            pw.print(requestBody);
+            pw.flush();
+            pw.close();
         }
     }
 
+    @Override
     public void shutdown() {
+        // Nothing to do here
     }
+
 }
