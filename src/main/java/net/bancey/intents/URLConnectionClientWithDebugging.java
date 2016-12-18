@@ -51,14 +51,14 @@ public class URLConnectionClientWithDebugging implements HttpClient {
 
                 if (headers != null && !headers.isEmpty()) {
                     for (Map.Entry<String, String> header : headers.entrySet()) {
-                        System.out.println("Header: " + header.getKey() + ":" + header.getValue());
+                        //System.out.println("Header: " + header.getKey() + ":" + header.getValue());
                         httpURLConnection.addRequestProperty(header.getKey(), header.getValue());
                     }
                 }
 
                 if (request.getHeaders() != null) {
                     for (Map.Entry<String, String> header : request.getHeaders().entrySet()) {
-                        System.out.println("Header: " + header.getKey() + ":" + header.getValue());
+                        //System.out.println("Header: " + header.getKey() + ":" + header.getValue());
                         httpURLConnection.addRequestProperty(header.getKey(), header.getValue());
                     }
                 }
@@ -70,6 +70,7 @@ public class URLConnectionClientWithDebugging implements HttpClient {
                     System.out.println("Using " + requestMethod);
                     httpURLConnection.setRequestMethod(requestMethod);
                     setRequestBody(request, requestMethod, httpURLConnection);
+                    System.out.println(request.getBody());
                 }
 
                 httpURLConnection.connect();
