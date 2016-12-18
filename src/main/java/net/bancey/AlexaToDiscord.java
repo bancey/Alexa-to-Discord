@@ -114,7 +114,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
                     .setClientSecret(CLIENT_SECRET)
                     .setRedirectURI(CALLBACK_URL)
                     .setCode(code)
-                    .buildBodyMessage();
+                    .buildHeaderMessage();
 
             System.out.println(oAuthClientRequest.getBody());
             System.out.println(oAuthClientRequest.getLocationUri());
