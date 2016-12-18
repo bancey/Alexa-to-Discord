@@ -2,6 +2,7 @@ package net.bancey;
 
 import com.amazon.speech.speechlet.Speechlet;
 import com.amazon.speech.speechlet.servlet.SpeechletServlet;
+import net.bancey.intents.URLConnectionClientWithDebugging;
 import net.bancey.services.DiscordApp;
 import net.bancey.speechlets.DiscordSpeechlet;
 import org.apache.oltu.oauth2.client.OAuthClient;
@@ -119,7 +120,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
             System.out.println(oAuthClientRequest.getBody());
             System.out.println(oAuthClientRequest.getLocationUri());
             System.out.println(oAuthClientRequest.getHeaders().size());
-            OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
+            OAuthClient oAuthClient = new OAuthClient(new URLConnectionClientWithDebugging());
 
             OAuthAccessTokenResponse tokenResponse = oAuthClient.accessToken(oAuthClientRequest, "POST", OAuthJSONAccessTokenResponse.class);
             String accessToken = tokenResponse.getAccessToken();
