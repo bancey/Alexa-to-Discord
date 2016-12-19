@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header::head">
+    <meta charset="UTF-8"/>
+    <title>Authorization</title>
+</head>
+<body>
+<h2 th:text="${message}"/>
+<iframe th:src="${redirect_uri}">
+    Your browser does not support IFrames!
+</iframe>
+</body>
+</html>

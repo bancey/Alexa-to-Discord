@@ -23,6 +23,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -80,7 +81,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
     }
 
     @RequestMapping("/oauth/authorize")
-    public ModelAndView authorize(@RequestParam("client_id") String clientId, @RequestParam("state") String state, @RequestParam("redirect_uri") String redirectURI, HttpServletRequest req, HttpServletResponse res) {
+    public String authorize(@RequestParam("client_id") String clientId, @RequestParam("state") String state, @RequestParam("redirect_uri") String redirectURI, HttpServletRequest req, HttpServletResponse res, Model model) {
         try {
             this.state = state;
             this.redirectURI = redirectURI;
@@ -93,11 +94,14 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
                     .setScope("guilds")
                     .buildQueryMessage();
             System.out.println(request.getLocationUri());
-            return new ModelAndView(new RedirectView(request.getLocationUri()));
+            model.addAttribute("redirect_uri", request.getLocationUri());
+            model.addAttribute("message", "Redirecting you now!");
+            return "auth";
         } catch (OAuthSystemException e) {
             e.printStackTrace();
         }
-        return null;
+        model.addAttribute("message", "An error occurred! Please try again later!");
+        return "auth";
     }
 
     @RequestMapping("/oauth/callback")
