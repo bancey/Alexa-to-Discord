@@ -79,7 +79,7 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
     }
 
     @RequestMapping("/oauth/authorize")
-    public String authorize(@RequestParam("client_id") String clientId, @RequestParam("state") String state, @RequestParam("redirect_uri") String redirectURI, HttpServletRequest req, HttpServletResponse res, Model model) {
+    public ModelAndView authorize(@RequestParam("client_id") String clientId, @RequestParam("state") String state, @RequestParam("redirect_uri") String redirectURI, HttpServletRequest req, HttpServletResponse res, Model model) {
         try {
             this.state = state;
             this.redirectURI = redirectURI;
@@ -94,12 +94,12 @@ public class AlexaToDiscord extends SpringBootServletInitializer {
             System.out.println(request.getLocationUri());
             model.addAttribute("redirect_uri", request.getLocationUri());
             model.addAttribute("message", "Redirecting you now!");
-            return "auth";
+            return new ModelAndView(new RedirectView(request.getLocationUri()));
         } catch (OAuthSystemException e) {
             e.printStackTrace();
         }
         model.addAttribute("message", "An error occurred! Please try again later!");
-        return "auth";
+        return new ModelAndView("auth");
     }
 
     @RequestMapping("/oauth/callback")
