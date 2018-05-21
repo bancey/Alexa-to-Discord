@@ -1,11 +1,11 @@
 # Alexa-to-Discord
 
-#Introduction
+# Introduction
 Alexa-to-Discord is a work in progress Alexa skill which allows users to interect with their discord guild(s) using an Alexa enabled device.
 
 - - - -
 
-#Table of Contents
+# Table of Contents
  - [Features](#Features)
     - [Current Features](#Current-Features)
     - [Planned Features](#Planned-Features)
@@ -16,9 +16,9 @@ Alexa-to-Discord is a work in progress Alexa skill which allows users to interec
  
  - - - -
  
-#<a name="Features"></a>Features
+# <a name="Features"></a>Features
 
-##<a name="Current-Features"></a>Current Features
+## <a name="Current-Features"></a>Current Features
 Currently the skill has 6 intents you can:
  - Get all guilds the bot is connected to.
  - Select a specific guild.
@@ -27,7 +27,7 @@ Currently the skill has 6 intents you can:
  - Get the voice channels from the selected guild.
  - Get all channels in the selected guild.
  
-##<a name="Planned-Features"></a>Planned Features
+## <a name="Planned-Features"></a>Planned Features
 These are features that we plan to implement when we have time or they are waiting for push notifications to be release for the echo.
  - Be able to select a specific channel in the selected guild.
  - Get the last x messages from the selected channel.
@@ -37,12 +37,12 @@ These are features that we plan to implement when we have time or they are waiti
 
 - - - -
 
-#<a name="Getting-Started"></a>Getting Started
+# <a name="Getting-Started"></a>Getting Started
 Firstly, you are going to want to make sure you have a [Discord account](https://discordapp.com/) and a [Amazon Developer account](https://developer.amazon.com/), although not necessary, I highly suggest getting a [Heroku account](https://dashboard.heroku.com/apps) as this will allow you to host your code for free without having to mess around with SSL certificated or HTTPS.
  
 - - - -
 
-###<a name="Generating-your-Discord-token"></a>Generating your Discord token
+### <a name="Generating-your-Discord-token"></a>Generating your Discord token
 1. Go to the [discord developers portal](https://discordapp.com/developers) and log in with your discord account.
 2. Click on the "My Apps" link in the menu on the left.
 3. Click on "New App".
@@ -52,10 +52,10 @@ Firstly, you are going to want to make sure you have a [Discord account](https:/
 
 - - - -
 
-###<a name="Deploying-the-Application"></a>Deploying the Application
+### <a name="Deploying-the-Application"></a>Deploying the Application
 If you decide to not use [Heroku](https://dashboard.heroku.com/apps) you need to set an environment variable in the environment that the application will be running. The environment variable needs to be called "DISCORD_TOKEN" and must have a value of your discord bot token that you generated earlier.
 
-####<a name="Deploying-to-Heroku"></a>Deploying to Heroku
+#### <a name="Deploying-to-Heroku"></a>Deploying to Heroku
 1. Fork this repository.
 2. Navigate to [Heroku](https://dashboard.heroku.com/apps) and login with your account.
 3. Create a new app and give it a name.
@@ -71,7 +71,7 @@ If you decide to not use [Heroku](https://dashboard.heroku.com/apps) you need to
 
 - - - -
 
-###<a name="Creating-the-Alexa-Skill"></a>Creating the Alexa Skill
+### <a name="Creating-the-Alexa-Skill"></a>Creating the Alexa Skill
 1. Go to the [Amazon developer portal](https://developer.amazon.com/) and login using your account.
 2. Once logged in click the "Alexa" button towards the top of the page.
 3. Then click the "getting started" button underneath Alexa Skills Kit.
@@ -89,4 +89,4 @@ If you decide to not use [Heroku](https://dashboard.heroku.com/apps) you need to
 
 - - - -
 
-#Todo: finish this
+# Todo: finish this
